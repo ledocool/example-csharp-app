@@ -47,7 +47,12 @@ public class BookRepository : IBookRepository
         if(request.Index != null)
         {
             var interminentQuery = await query.ToListAsync();
-            return interminentQuery.Where(x => x.BookIndex.Contains(request.Index)).ToList(); // ничего лучше не придумал
+            return interminentQuery.Where(x => x.BookIndex.Contains(request.Index)).ToList(); 
+            // решение плохое, но для поиска более хорошего нужно время
+            // возможно, потребуется изменить тип поля, либо раскидывать xml по другим таблицам.
+            // также возможно что в TransactSql этот момент учтен и поиск будет работать нативно
+            // но TransactSql у меня не раскатан, а Postgre уже стоит и крутится; так быстрее и проще в текущей ситуации
+
             // xml ~~ xml - operation does not exist
             //query = query.Where(x => x.BookIndex.Contains(request.Index));
         }
