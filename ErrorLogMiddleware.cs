@@ -18,9 +18,10 @@ public class ErrorLogMiddleware
             await _next(httpContext);
             return;
         } 
-        catch (Exception)
+        catch (Exception ex)
         {
             // todo: logme
+            Console.WriteLine(ex.Message);
             httpContext.Response.StatusCode = 500;
         }
     }

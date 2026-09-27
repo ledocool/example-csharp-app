@@ -16,8 +16,6 @@ namespace Program
     {
         private static void SetupDi(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddCors();
-
             services.AddScoped<IBookAggregator, BookAggregator>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IBookRepository, BookRepository>();
@@ -48,11 +46,21 @@ namespace Program
                 
                 builder.Services.AddControllers();
                 builder.Services.AddSwaggerGen();
-
+                builder.Services.AddCors(options =>
+                {
+                    options.AddPolicy("AllowAll", policy =>
+                    {
+                        policy.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+                });
+                
                 SetupDi(builder.Services, configuration);
                 
-            
                 var app = builder.Build();
+                app.UseCors("AllowAll");
+                app.UseCors(cors => cors.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
                 //if(app.Environment.IsDevelopment())
                 //{
                     app.UseSwagger();

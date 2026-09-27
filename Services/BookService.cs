@@ -56,6 +56,6 @@ public class BookService : IBookService
     private async Task<BookDto> GetBookForEdit(Guid bookId)
     {
         var book = await _bookRepository.GetBookAsync(bookId);
-        return book ?? throw new ArgumentException();
+        return book ?? throw new ArgumentException("Book does not exist");
     }
 }

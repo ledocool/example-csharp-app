@@ -13,7 +13,7 @@ public static class RequestMapper
             Author = request.Author,
             BookIndex = request.BookIndex.Trim(),
             Title = request.Title,
-            YearPublished = request.YearPublished
+            YearPublished = request.YearPublished.Date.ToUniversalTime()
         };
     }
 
